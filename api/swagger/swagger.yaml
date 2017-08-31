@@ -1,0 +1,1382 @@
+swagger: "2.0"
+info:
+  version: "1.5"
+  title: SiB Colombia - Dataportal API
+  description: API for SiB Colombia Dataportal. This API is used as a backend for SiB Colombia's web sites and online services.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: SiB Colombia Developer Team
+    url: http://www.sibcolombia.net
+    email: lgrajales@humboldt.org.co
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+# during dev, should point to your local machine
+host: localhost:5000
+# basePath prefixes all resource paths
+basePath: /api/v1.5
+tags:
+  - name: registry
+    description: This API works against the SiB Colombia Registry, which makes all registered Datasets and Organizations discoverable.
+  - name: occurrence
+    description: This API works against the SiB Colombia Occurrence data store, which handles occurrence records and makes them available through the web service.
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /registry/department:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: registries
+    get:
+      description: Returns dataportal departments list
+      tags:
+        - registry
+      # used as the method name of the controller
+      operationId: departmentList
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/department'
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /registry/county:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: registries
+    get:
+      description: Returns dataportal counties list
+      tags:
+        - registry
+      # used as the method name of the controller
+      operationId: countyList
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/county'
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /provider:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns dataportal provider list
+      tags:
+        - occurrence
+      # used as the method name of the controller
+      operationId: providerList
+      parameters:
+        - name: providerId
+          in: query
+          description: Provider Id.
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/OccurrenceSearchResults"
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /occurrence/:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns occurrence list
+      tags:
+        - occurrences
+      # used as the method name of the controller
+      operationId: Occurrencesearch
+      parameters:
+        - name: Id
+          in: query
+          description: sin descripcion
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/county'
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"          
+  /ocurrence/stats:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: registries
+    get:
+      description: Returns dataportal stats list
+      tags:
+        - registry
+      # used as the method name of the controller
+      operationId: stats
+      parameters:
+        - name: parametrosBusqueda
+          in: query
+          description: sin descripcion
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/county'
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /occurrence/searchh:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns dataportal occurrence list
+      tags:
+        - occurrences
+      # used as the method name of the controller
+      operationId: speciesGroup
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/county'
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /occurrence/searchOGC:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns dataportal counts list
+      tags:
+        - occurrences
+      # used as the method name of the controller
+      operationId: occurrencesGroupCount
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/county'
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"          
+  /occurrence/search2:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns dataportal counts list
+      tags:
+        - occurrences
+      # used as the method name of the controller
+      operationId: CountsGeneral
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/county'
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /occurrence/search3:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns dataportal occurrence list
+      tags:
+        - occurrences
+      # used as the method name of the controller
+      operationId: resourcesGroup
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/county'
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /occurrence/count:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns count of occurrences according to query parameters
+      tags:
+        - occurrence
+      # used as the method name of the controller
+      operationId: occurrenceCount
+      parameters:
+        - name: isGeoreferenced
+          in: query
+          description: True or false if you wants only georeferenced occurrences
+          required: false
+          type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ResultResponse"
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /occurrence/search:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns occurrences according to query parameters
+      tags:
+        - occurrence
+      # used as the method name of the controller
+      operationId: search
+      parameters:
+        - name: q
+          in: query
+          description: Simple search parameter. The value for this parameter can be a simple word or a phrase. See http://lucene.apache.org/core/6_1_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
+          required: false
+          type: string
+        - name: scientificName
+          in: query
+          description: Scientific name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: kingdomName
+          in: query
+          description: Kingdom name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: phylumName
+          in: query
+          description: Phylum name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: className
+          in: query
+          description: Class name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: orderName
+          in: query
+          description: Order name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: familyName
+          in: query
+          description: Family name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: genusName
+          in: query
+          description: Genus name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: speciesName
+          in: query
+          description: Species name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: specificEpithetName
+          in: query
+          description: Specific epithet name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: infraspecificEpithetName
+          in: query
+          description: Infraspecific epithet name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: providerName
+          in: query
+          description: Provider name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: resourceName
+          in: query
+          description: Resource name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: collectionName
+          in: query
+          description: Collection name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: institutionCode
+          in: query
+          description: Institution code.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: countryName
+          in: query
+          description: Country name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: departmentName
+          in: query
+          description: Department name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: countyName
+          in: query
+          description: County name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: habitat
+          in: query
+          description: Habitat.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: basisOfRecord
+          in: query
+          description: Basis of record.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: elevationEqual
+          in: query
+          description: "Occurrence elevation. This query parameter searchs for elevation equal to a number."
+          required: false
+          type: array
+          items:
+            type: number
+            format: double
+        - name: elevationGreaterOrEqualTo
+          in: query
+          description: "Occurrence elevation. This query parameter searchs for elevation equal or greater than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: elevationLessOrEqualTo
+          in: query
+          description: "Occurrence elevation. This query parameter searchs for elevation equal or less than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: depthEqual
+          in: query
+          description: "Occurrence depth. This query parameter searchs for depth equal to a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: depthGreaterOrEqualTo
+          in: query
+          description: "Occurrence depth. This query parameter searchs for depth equal or greater than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: depthLessOrEqualTo
+          in: query
+          description: "Occurrence depth. This query parameter searchs for depth equal or less than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: latitudeTopLeft
+          in: query
+          description: "Data located around square defined by top left point and bottom right point. Use latitudeTopLeft for the latitude of the top left point."
+          type: number
+          format: double
+          required: false
+        - name: longitudeTopLeft
+          in: query
+          description: "Data located around square defined by top left point and bottom right point. Use latitudeTopLeft for the longitude of the top left point."
+          type: number
+          format: double
+          required: false
+        - name: latitudeBottomRight
+          in: query
+          description: "Data located around square defined by top left point and bottom right point. Use latitudeBottomRight for the latitude of the bottom right point."
+          type: number
+          format: double
+          required: false
+        - name: longitudeBottomRight
+          in: query
+          description: "Data located around square defined by top left point and bottom right point. Use longitudeBottomRight for the longitude of the bottom right point."
+          type: number
+          format: double
+          required: false
+        - name: size
+          in: query
+          description: The maximum number of results to return. This can't be greater than 1000.
+          required: false
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 1000
+        - name: page
+          in: query
+          description: The initial offset of page query, this parameter combined with size parameter will determine the results.
+          required: false
+          type: integer
+          default: 0
+          minimum: 0
+        - name: facet
+          in: query
+          description: "Name of element or elements used for aggregation, valid values: scientificName, kingdom, phylum, class, order, family, genus, specie, specific_epithet, infraspecific_epithet, country, department, county, habitat, basis_of_record, collection_name, provider_name, resource_name, institution_code"
+          required: false
+          type: array
+          items:
+            type: string
+        - name: facetLimit
+          in: query
+          description: "Used in combination with the facet parameter. Set facetLimit=# to show the first # aggregations."
+          required: false
+          type: integer
+          default: 10
+          maximum: 1000
+          minimum: 1
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/OccurrenceSearchResults"
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /occurrence/grid:
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns a grid of cells with occurrences count of each cell according to query parameters
+      tags:
+        - occurrence
+      operationId: gridSearch
+      parameters:
+        - name: q
+          in: query
+          description: Simple search parameter. The value for this parameter can be a simple word or a phrase. See http://lucene.apache.org/core/6_1_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
+          required: false
+          type: string
+        - name: scientificName
+          in: query
+          description: Scientific name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: kingdomName
+          in: query
+          description: Kingdom name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: phylumName
+          in: query
+          description: Phylum name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: className
+          in: query
+          description: Class name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: orderName
+          in: query
+          description: Order name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: familyName
+          in: query
+          description: Family name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: genusName
+          in: query
+          description: Genus name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: speciesName
+          in: query
+          description: Species name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: specificEpithetName
+          in: query
+          description: Specific epithet name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: infraspecificEpithetName
+          in: query
+          description: Infraspecific epithet name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: providerName
+          in: query
+          description: Provider name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: resourceName
+          in: query
+          description: Resource name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: collectionName
+          in: query
+          description: Collection name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: institutionCode
+          in: query
+          description: Institution code.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: countryName
+          in: query
+          description: Country name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: departmentName
+          in: query
+          description: Department name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: countyName
+          in: query
+          description: County name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: habitat
+          in: query
+          description: Habitat.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: basisOfRecord
+          in: query
+          description: Basis of record.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: elevationEqual
+          in: query
+          description: "Occurrence elevation. This query parameter searchs for elevation equal to a number."
+          required: false
+          type: array
+          items:
+            type: number
+            format: double
+        - name: elevationGreaterOrEqualTo
+          in: query
+          description: "Occurrence elevation. This query parameter searchs for elevation equal or greater than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: elevationLessOrEqualTo
+          in: query
+          description: "Occurrence elevation. This query parameter searchs for elevation equal or less than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: depthEqual
+          in: query
+          description: "Occurrence depth. This query parameter searchs for depth equal to a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: depthGreaterOrEqualTo
+          in: query
+          description: "Occurrence depth. This query parameter searchs for depth equal or greater than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: depthLessOrEqualTo
+          in: query
+          description: "Occurrence depth. This query parameter searchs for depth equal or less than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: precision
+          in: query
+          description: "Grid hash precision. Valid values. 1: 5,009.4km x 4,992.6km, 2: 1,252.3km x 624.1km, 3: 156.5km x 156km, 4: 39.1km x 19.5km, 5: 4.9km x 4.9km, 6: 1.2km x 609.4m"
+          required: true
+          type: integer
+          default: 5
+          minimum: 1
+          maximum: 6
+        - name: responseType
+          in: query
+          description: "Type of response for this query, valid value: geojson. Default value geojson"
+          required: true
+          type: string
+          default: "geojson"
+        - name: scale
+          in: query
+          description: "Type of scale for cell coloring, valid values: linear or logarithmic"
+          required: true
+          type: string
+          default: "logarithmic"
+        - name: color
+          in: query
+          description: "Color to apply for each cell."
+          required: true
+          type: string
+          default: "#ff2600"
+        - name: colorMethod
+          in: query
+          description: "Method applied for cell density color, valid values: alpha or gradient"
+          required: true
+          type: string
+          default: "gradient"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/GeoJSON"
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /occurrence/grid/{z}/{x}/{y}.pbf:
+    x-swagger-router-controller: occurrences
+    get:
+      description: Returns a grid of cells with occurrences count of each cell according to query parameters with vector tiles, using Protocolbuffer Binary Format.
+      tags:
+        - occurrence
+      operationId: gridSearchPbf
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: q
+          in: query
+          description: Simple search parameter. The value for this parameter can be a simple word or a phrase. See http://lucene.apache.org/core/6_1_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
+          required: false
+          type: string
+        - name: scientificName
+          in: query
+          description: Scientific name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: kingdomName
+          in: query
+          description: Kingdom name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: phylumName
+          in: query
+          description: Phylum name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: className
+          in: query
+          description: Class name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: orderName
+          in: query
+          description: Order name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: familyName
+          in: query
+          description: Family name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: genusName
+          in: query
+          description: Genus name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: speciesName
+          in: query
+          description: Species name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: specificEpithetName
+          in: query
+          description: Specific epithet name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: infraspecificEpithetName
+          in: query
+          description: Infraspecific epithet name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: providerName
+          in: query
+          description: Provider name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: resourceName
+          in: query
+          description: Resource name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: collectionName
+          in: query
+          description: Collection name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: institutionCode
+          in: query
+          description: Institution code.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: countryName
+          in: query
+          description: Country name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: departmentName
+          in: query
+          description: Department name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: countyName
+          in: query
+          description: County name.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: habitat
+          in: query
+          description: Habitat.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: basisOfRecord
+          in: query
+          description: Basis of record.
+          required: false
+          type: array
+          items:
+            type: string
+        - name: elevationEqual
+          in: query
+          description: "Occurrence elevation. This query parameter searchs for elevation equal to a number."
+          required: false
+          type: array
+          items:
+            type: number
+            format: double
+        - name: elevationGreaterOrEqualTo
+          in: query
+          description: "Occurrence elevation. This query parameter searchs for elevation equal or greater than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: elevationLessOrEqualTo
+          in: query
+          description: "Occurrence elevation. This query parameter searchs for elevation equal or less than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: depthEqual
+          in: query
+          description: "Occurrence depth. This query parameter searchs for depth equal to a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: depthGreaterOrEqualTo
+          in: query
+          description: "Occurrence depth. This query parameter searchs for depth equal or greater than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: depthLessOrEqualTo
+          in: query
+          description: "Occurrence depth. This query parameter searchs for depth equal or less than a number."
+          type: array
+          items:
+            type: number
+            format: double
+          required: false
+        - name: z
+          in: path
+          description: Vector tile Z location
+          required: true
+          type: integer
+          minimum: 0
+          default: 0
+        - name: x
+          in: path
+          description: Vector tile X location
+          required: true
+          type: integer
+          minimum: 0
+          default: 0
+        - name: y
+          in: path
+          description: Vector tile Y location
+          required: true
+          type: integer
+          minimum: 0
+          default: 0
+        - name: precision
+          in: query
+          description: "Grid hash precision. Valid values. 1: 5,009.4km x 4,992.6km, 2: 1,252.3km x 624.1km, 3: 156.5km x 156km, 4: 39.1km x 19.5km, 5: 4.9km x 4.9km, 6: 1.2km x 609.4m"
+          required: true
+          type: integer
+          default: 5
+          minimum: 1
+          maximum: 6
+        - name: scale
+          in: query
+          description: "Type of scale for cell coloring, valid values: linear or logarithmic"
+          required: true
+          type: string
+          default: "logarithmic"
+        - name: color
+          in: query
+          description: "Color to apply for each cell."
+          required: true
+          type: string
+          default: "#ff2600"
+        - name: colorMethod
+          in: query
+          description: "Method applied for cell density color, valid values: alpha or gradient"
+          required: true
+          type: string
+          default: "gradient"
+      responses:
+        "200":
+          description: Success
+        # responses may fall through to errors
+        "400":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  GeoJSON:
+    required:
+      - type
+    properties:
+      type:
+        type: string
+      features:
+        type: array
+        items:
+          $ref: '#/definitions/Feature'
+  Feature:
+    required:
+      - type
+    properties:
+      type:
+        type: string
+      geometry:
+        $ref: '#/definitions/Geometry'
+  Geometry:
+    properties:
+      type:
+        type: string
+      coordinates:
+        type: array
+        items:
+          $ref: '#/definitions/Coordinate'
+      properties:
+        $ref: '#/definitions/GeometryProperties'
+  Coordinate:
+    type: array
+    items:
+      type: number
+      format: double
+  GeometryProperties:
+    properties:
+      stroke:
+        type: string
+      stroke-width:
+        type: number
+        format: float
+        minimum: 0
+      stroke-opacity:
+        type: number
+        format: float
+        minimum: 0
+        maximum: 1
+      fill:
+        type: string
+      fill-opacity:
+        type: number
+        format: float
+        minimum: 0
+        maximum: 1
+      geohash:
+        type: string
+      count:
+        type: integer
+  OccurrenceSearchResults:
+    required:
+      - offset
+      - size
+      - count
+      - results
+    properties:
+      offset:
+        type: integer
+      size:
+        type: integer
+      count:
+        type: integer
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/Occurrence'
+      facets:
+        type: array
+        items:
+          $ref: '#/definitions/Facet'
+  Occurrence:
+    required:
+      - id
+      - dwca_id
+      - sourcefileid
+      - occurrenceid
+      - canonical
+    properties:
+      id:
+        type: integer
+      dwca_id:
+        type: string
+      sourcefileid:
+        type: string
+      occurrenceid:
+        type: string
+      canonical:
+        type: string
+      taxon_rank:
+        type: string
+      country_name:
+        type: string
+      county_name:
+        type: string
+      locality:
+        type: string
+      year_start:
+        type: integer
+        minimum: 0000
+        maximum: 9999
+      month_start:
+        type: integer
+        minimum: 01
+        maximum: 12
+      day_start:
+        type: integer
+        minimum: 00
+        maximum: 31
+      year_end:
+        type: integer
+        minimum: 0000
+        maximum: 9999
+      month_end:
+        type: integer
+        minimum: 01
+        maximum: 12
+      day_end:
+        type: integer
+        minimum: 00
+        maximum: 31
+      eventdate_start:
+        type: string
+        pattern: '^(\d{4}-\d{2}-\d{2})$'
+      eventdate_end:
+        type: string
+        pattern: '^(\d{4}-\d{2}-\d{2})$'
+      verbatim_elevation:
+        type: string
+      minimum_elevation:
+        type: integer
+      maximum_elevation:
+        type: integer
+      department_name:
+        type: string
+      recorded_by:
+        type: string
+      habitat:
+        type: string
+      location:
+        $ref: '#/definitions/location'
+      taxonomy:
+        $ref: '#/definitions/taxonomy'
+      provider:
+        $ref: '#/definitions/provider'
+      resource:
+        $ref: '#/definitions/resource'
+      institution:
+        $ref: '#/definitions/institution'
+      collection:
+        $ref: '#/definitions/collection'
+      catalog:
+        $ref: '#/definitions/catalog'
+      basis_of_record:
+        $ref: '#/definitions/basis_of_record'
+  location:
+    type: object
+    required:
+      - lat
+      - lon
+    properties:
+      lat:
+        type: number
+        format: double
+      lon:
+        type: number
+        format: double
+  Facet:
+    type: object
+    required:
+      - field
+      - counts
+    properties:
+      field:
+        type: string
+      counts:
+        type: array
+        items:
+          type: object
+          required:
+            - name
+            - count
+          properties:
+            name:
+              type: string
+            count:
+              type: integer
+  taxonomy:
+    type: object
+    properties:
+      kingdom_name:
+        type: string
+      phylum_name:
+        type: string
+      class_name:
+        type: string
+      order_name:
+        type: string
+      family_name:
+        type: string
+      genus_name:
+        type: string
+      species_name:
+        type: string
+      specific_epithet:
+        type: string
+      infraspecific_epithet:
+        type: string
+  provider:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      description:
+        type: string
+      address:
+        type: string
+      city:
+        type: string
+      website_url:
+        type: string
+      logo_url:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+  resource:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      intellectual_rights:
+        type: string
+      citation:
+        type: string
+      logo_url:
+        type: string
+      publication_date:
+        type: string
+        pattern: '^(\d{4}-\d{2}-\d{2})$'
+      gbif_package_id:
+        type: string
+      alternate_identifier:
+        type: string
+      language:
+        type: string
+      keyword:
+        type: string
+      keyword_thesaurus:
+        type: string
+      hierarchy_level:
+        type: string
+  institution:
+    type: object
+    properties:
+      code:
+        type: string
+  collection:
+    type: object
+    properties:
+      id:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+  catalog:
+    type: object
+    properties:
+      number:
+        type: string
+  basis_of_record:
+    type: object
+    properties:
+      name:
+        type: string
+  county:
+    required:
+      - country_code
+      - department_name
+      - country_name
+      - iso_county_code
+      - county_name
+      - iso_department_code
+    properties:
+      country_code:
+        type: string
+      department_name:
+        type: string
+      country_name:
+        type: string
+      iso_county_code:
+        type: string
+      county_name:
+        type: string
+      iso_department_code:
+        type: string
+  department:
+    required:
+      - country_code
+      - lng
+      - department_name
+      - country_name
+      - min_latitude
+      - max_longitude
+      - iso_department_code
+      - lat
+      - max_latitude
+      - min_longitude
+    properties:
+      country_code:
+        type: string
+      lng:
+        type: string
+      department_name:
+        type: string
+      country_name:
+        type: string
+      min_latitude:
+        type: number
+        format: double
+      max_longitude:
+        type: number
+        format: double
+      iso_department_code:
+        type: string
+      lat:
+        type: string
+      max_latitude:
+        type: number
+        format: double
+      min_longitude:
+        type: number
+        format: double
+  ResultResponse:
+    required:
+      - count
+    properties:
+      count:
+        type: integer
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+      description:
+        type: string

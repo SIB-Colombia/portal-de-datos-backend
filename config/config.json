@@ -1,0 +1,7 @@
+{
+  database: {
+    elasticSearch: {
+      url: ['localhost:9200']
+    }
+  }
+}
